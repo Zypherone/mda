@@ -12,8 +12,6 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-var vc = 'v/1/';
-
 
 var functionAPP, 
     appSetPage = '',
@@ -127,7 +125,7 @@ function saveToDB(userId, listId, idDrink, drinkName, shortcut) {
       oldButton = $(shortcut).siblings('.button');
       oldButton.toggleClass('basic');
       
-      updates[vc + '/list/' + dbCheck.data.list + '/' + userId + '/' + newDrinkKey] = null; 
+      updates['/list/' + dbCheck.data.list + '/' + userId + '/' + newDrinkKey] = null; 
       drinkData.list = listId;
 
     }
@@ -149,9 +147,9 @@ function saveToDB(userId, listId, idDrink, drinkName, shortcut) {
 
   // Write the new entry data simultaneously.
   
-  updates[vc + '/drinks/' + newDrinkKey] = drinkData; // Not in use for current version, kept for backwards compatibility
-  updates[vc + '/user/' + userId + '/' + newDrinkKey] = drinkData; // Not in use for current version, kept for backwards compatibility
-  updates[vc + '/list/' + listId + '/' + userId + '/' + newDrinkKey] = drinkData; 
+  updates['/drinks/' + newDrinkKey] = drinkData; // Not in use for current version, kept for backwards compatibility
+  updates['/user/' + userId + '/' + newDrinkKey] = drinkData; // Not in use for current version, kept for backwards compatibility
+  updates['/list/' + listId + '/' + userId + '/' + newDrinkKey] = drinkData; 
 
   //console.log(updates);
   
@@ -426,7 +424,7 @@ function buildResults(resp) {
 var dbLists = [];
 
 firebase.database()
-.ref(vc + '/user/1')
+.ref('/user/1')
 .on('value', resp => {
   dbLists = resp.val();
 })
@@ -548,7 +546,7 @@ function fetchDataApi(e) {
     if (uri === 'firebase') {
 
       firebase.database()
-        .ref(vc + '/list/' + nextPage + '/' + userId + '')
+        .ref('/list/' + nextPage + '/' + userId + '')
         .once('value')
         .then(buildResults);
 
